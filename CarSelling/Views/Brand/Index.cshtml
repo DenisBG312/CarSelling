@@ -1,0 +1,58 @@
+﻿@model List<Brand>
+
+@{
+    ViewData["Title"] = "All Brands";
+}
+
+<script src="js/imgOpen.js"></script>
+
+<link rel="stylesheet" href="~/css/BrandIndex.css"/>
+
+<h1>All Brands</h1>
+
+<p>
+    <a asp-action="Add" class="btn btn-primary">Create New Brand</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Image</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var brand in Model)
+    {
+        <tr>
+            <td>@brand.Name</td>
+            <td>
+                @if (!string.IsNullOrEmpty(brand.Description))
+                {
+                    @brand.Description
+                }
+                else
+                {
+                    <span>No Description</span>
+                }
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(brand.ImgUrl))
+                {
+                    <img src="@brand.ImgUrl" alt="@brand.Name" class="brand-image" />
+                }
+                else
+                {
+                    <span>No Image</span>
+                }
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", "Brand", new { id = brand.Id })" class="btn btn-primary">Edit</a>
+                <a href="@Url.Action("Delete", "Brand", new { id = brand.Id })" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

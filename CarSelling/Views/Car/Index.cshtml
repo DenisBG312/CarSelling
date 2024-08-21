@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CarSelling.Models.Car>
+
+@{
+    ViewData["Title"] = "All Cars";
+}
+<script src="js/imgOpen.js"></script>
+<link rel="stylesheet" href="css/createCar.css"/>
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Mileage</th>
+        <th>Image</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var car in Model)
+    {
+        <tr>
+            <td>@car.Brand.Name</td>
+            <td>@car.Model</td>
+            <td>@car.Mileage</td>
+            <td>
+                @if (!string.IsNullOrEmpty(car.ImgUrl))
+                {
+                    <img src="@car.ImgUrl" alt="@car.Model" class="img-thumbnail" style="cursor:pointer;" onclick="openModal('@car.ImgUrl')" />
+                }
+                else
+                {
+                    <span>No Image</span>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<!-- Modal Structure -->
+<div id="imageModal" class="modal" style="display:none;">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+    <div id="caption"></div>
+</div>
