@@ -1,12 +1,13 @@
-﻿@model List<Brand>
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using X.Web.PagedList
+@model X.PagedList.IPagedList<Brand>
 
 @{
     ViewData["Title"] = "All Brands";
 }
 
 <script src="js/imgOpen.js"></script>
-
-<link rel="stylesheet" href="~/css/BrandIndex.css"/>
+<link rel="stylesheet" href="~/css/BrandIndex.css" />
 
 <h1>All Brands</h1>
 
@@ -56,3 +57,17 @@
     }
     </tbody>
 </table>
+
+<nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+            new PagedListRenderOptions
+    {
+        UlElementClasses = new[] { "pagination" }, 
+        LiElementClasses = new[] { "page-item" },  
+        PageClasses = new[] { "page-link" },       
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+        DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded
+    })
+</nav>

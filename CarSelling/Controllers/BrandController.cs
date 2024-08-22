@@ -2,6 +2,7 @@
 using CarSellingWeb.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList.Extensions;
 
 namespace CarSelling.Controllers
 {
@@ -12,9 +13,14 @@ namespace CarSelling.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
-            var brands = _context.Brands.ToList();
+            int pageNumber = page ?? 1;
+
+            int pageSize = 5;
+
+
+            var brands = _context.Brands.ToPagedList(pageNumber, pageSize);
             return View(brands);
         }
 
