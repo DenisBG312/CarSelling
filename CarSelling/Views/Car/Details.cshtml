@@ -4,8 +4,7 @@
 <html>
 <head>
     <title>@Model.BrandName @Model.Model - Details</title>
-    
-    <link rel="stylesheet" href="~/css/carDetails.css"/>
+    <link rel="stylesheet" href="~/css/carDetails.css" />
 </head>
 <body>
     <div class="container">
@@ -18,16 +17,17 @@
             </div>
             <div class="car-details">
                 <p><strong>Mileage:</strong> @Model.Mileage miles</p>
-                <p><strong>Price:</strong>
+                <p>
+                    <strong>Price:</strong>
                     @if (Model.Price != null)
                     {
-                        @Model.Price.ToString()
+                        @Model.Price.Value.ToString("N2")
                     }
                     else
                     {
                         <span>There is no price for this car</span>
                     }
-                    </p>
+                </p>
                 <p><strong>Year:</strong> @Model.CarCreationDate.Year</p>
                 <p><strong>Offer Created At:</strong> @Model.CreatedAt.ToShortDateString()</p>
                 <p>
@@ -41,7 +41,10 @@
                         <span>There is no description for this car</span>
                     }
                 </p>
-                <a href="#" class="btn btn-primary">Buy Now</a>
+
+                <form id="checkout-form" method="post" asp-action="BuyNow" asp-controller="Car" asp-route-carId="@Model.Id">
+                    <button class="btn btn-primary">Buy Now</button>
+                </form>
             </div>
         </div>
     </div>

@@ -1,5 +1,9 @@
+using CarSelling.Models;
+using CarSelling.Services;
 using CarSellingWeb.Data;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
+using Stripe.Terminal;
 
 namespace CarSelling
 {
@@ -17,6 +21,9 @@ namespace CarSelling
             builder.Services.AddDbContext<CarSellingDbContext>
                 (options => options.UseSqlServer(connectionString));
 
+            builder.Services.AddScoped<PayPalService>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -29,6 +36,9 @@ namespace CarSelling
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            var stripeSecretKey = builder.Configuration["Stripe:SecretKey"];
+            StripeConfiguration.ApiKey = stripeSecretKey;
 
             app.UseRouting();
 
