@@ -15,6 +15,8 @@ namespace CarSelling.Models
         [Required]
         [Range(0, double.MaxValue)]
         public double Mileage { get; set; }
+        [Range(typeof(decimal), "0", "20000000")]
+        public decimal? Price { get; set; }
 
         public string? ImgUrl { get; set; }
 

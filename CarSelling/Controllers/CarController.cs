@@ -47,7 +47,8 @@ namespace CarSelling.Controllers
                     BrandId = viewModel.BrandId,
                     Model = viewModel.Model,
                     Mileage = viewModel.Mileage,
-                    ImgUrl = viewModel.ImgUrl
+                    ImgUrl = viewModel.ImgUrl,
+                    Price = viewModel.Price
                 };
 
                 _context.Cars.Add(car);

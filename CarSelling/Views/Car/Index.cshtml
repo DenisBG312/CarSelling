@@ -4,38 +4,53 @@
     ViewData["Title"] = "All Cars";
 }
 <script src="js/imgOpen.js"></script>
-<link rel="stylesheet" href="css/createCar.css"/>
+<link rel="stylesheet" href="css/createCar.css" />
 
 <h1>@ViewData["Title"]</h1>
 
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add a Car</a>
+</p>
+
 <table class="table">
     <thead>
-    <tr>
-        <th>Brand</th>
-        <th>Model</th>
-        <th>Mileage</th>
-        <th>Image</th>
-    </tr>
+        <tr>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Mileage</th>
+            <th>Price</th>
+            <th>Image</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var car in Model)
-    {
-        <tr>
-            <td>@car.Brand.Name</td>
-            <td>@car.Model</td>
-            <td>@car.Mileage</td>
-            <td>
-                @if (!string.IsNullOrEmpty(car.ImgUrl))
-                {
-                    <img src="@car.ImgUrl" alt="@car.Model" class="img-thumbnail" style="cursor:pointer;" onclick="openModal('@car.ImgUrl')" />
-                }
-                else
-                {
-                    <span>No Image</span>
-                }
-            </td>
-        </tr>
-    }
+        @foreach (var car in Model)
+        {
+            <tr>
+                <td>@car.Brand.Name</td>
+                <td>@car.Model</td>
+                <td>@car.Mileage</td>
+                <td>
+                    @if (car.Price.HasValue)
+                    {
+                        <span>@car.Price.Value.ToString("N2")$</span>
+                    }
+                    else
+                    {
+                        <span>The car is not for sale</span>
+                    }
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(car.ImgUrl))
+                    {
+                        <img src="@car.ImgUrl" alt="@car.Model" class="img-thumbnail" style="cursor:pointer;" onclick="openModal('@car.ImgUrl')" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 

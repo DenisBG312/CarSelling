@@ -7,56 +7,42 @@
 
 .modal {
     display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    position: fixed;
+    z-index: 1000; /* Ensure modal is on top */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark overlay */
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
 }
 
-/* Modal Content (Image) */
+/* Modal content styling */
 .modal-content {
-    margin: auto;
-    display: block;
-    width: auto; /* Automatically adjust width */
-    max-width: 50%; /* Set smaller maximum width */
-    max-height: 50vh; /* Set smaller maximum height relative to viewport height */
-    height: auto; /* Automatically adjust height */
+    max-width: 90vw; /* Limit width to 90% of viewport width */
+    max-height: 80vh; /* Limit height to 80% of viewport height */
+    width: auto; /* Allow width to scale with image size */
+    height: auto; /* Allow height to scale with image size */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Caption of Modal Image */
-#caption {
-    margin: auto;
-    display: block;
-    text-align: center;
-    color: #ccc;
-    padding: 10px 0;
-}
-
-/* Close Button */
+/* Close button styling */
 .close {
     position: absolute;
-    top: 15px;
-    right: 35px;
+    top: 10px;
+    right: 20px;
     color: #f1f1f1;
-    font-size: 40px;
+    font-size: 35px;
     font-weight: bold;
+    cursor: pointer;
 }
 
     .close:hover,
     .close:focus {
         color: #bbb;
         text-decoration: none;
-        cursor: pointer;
     }
-
-
-.table td, .table th {
-    text-align: center; /* Center-aligns text horizontally */
-    vertical-align: middle; /* Center-aligns text vertically */
-    padding: 10px; /* Adds padding for spacing */
-}
