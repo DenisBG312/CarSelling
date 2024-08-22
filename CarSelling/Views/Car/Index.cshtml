@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using X.Web.PagedList
-@model X.PagedList.IPagedList<Car>
+@model X.PagedList.IPagedList<CarIndexViewModel>
 
 @{
     ViewData["Title"] = "All Cars";
@@ -20,22 +20,21 @@
         <tr>
             <th>Brand</th>
             <th>Model</th>
-            <th>Mileage</th>
             <th>Price</th>
             <th>Image</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var car in Model)
         {
             <tr>
-                <td>@car.Brand.Name</td>
+                <td>@car.BrandName</td>
                 <td>@car.Model</td>
-                <td>@car.Mileage</td>
                 <td>
                     @if (car.Price.HasValue)
                     {
-                        <span>@car.Price.Value.ToString("N2")$</span>
+                        <span>@car.Price.Value.ToString("N2") $</span>
                     }
                     else
                     {
@@ -51,6 +50,9 @@
                     {
                         <span>No Image</span>
                     }
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", "Car", new { id = car.Id })" class="btn btn-info">Details</a>
                 </td>
             </tr>
         }

@@ -1,0 +1,49 @@
+﻿@model CarSelling.Models.CarDetailsViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Model.BrandName @Model.Model - Details</title>
+    
+    <link rel="stylesheet" href="~/css/carDetails.css"/>
+</head>
+<body>
+    <div class="container">
+        <div class="car-img">
+            <img src="@Model.ImgUrl" alt="@Model.BrandName @Model.Model">
+        </div>
+        <div class="car-info">
+            <div class="car-title">
+                <b><u>@Model.BrandName @Model.Model</u></b>
+            </div>
+            <div class="car-details">
+                <p><strong>Mileage:</strong> @Model.Mileage miles</p>
+                <p><strong>Price:</strong>
+                    @if (Model.Price != null)
+                    {
+                        @Model.Price.ToString()
+                    }
+                    else
+                    {
+                        <span>There is no price for this car</span>
+                    }
+                    </p>
+                <p><strong>Year:</strong> @Model.CarCreationDate.Year</p>
+                <p><strong>Offer Created At:</strong> @Model.CreatedAt.ToShortDateString()</p>
+                <p>
+                    <strong>Description:</strong>
+                    @if (Model.Description != null)
+                    {
+                        @Model.Description
+                    }
+                    else
+                    {
+                        <span>There is no description for this car</span>
+                    }
+                </p>
+                <a href="#" class="btn btn-primary">Buy Now</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

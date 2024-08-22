@@ -15,14 +15,18 @@ namespace CarSelling.Controllers
             _context = context;
         }
 
-        public IActionResult Index(int? page)
+        public  IActionResult Index(int? page)
         {
-            int pageNumber = page ?? 1;
-
-            int pageSize = 5;
-
-
-            var cars = _context.Cars.Include(c => c.Brand).ToPagedList(pageNumber, pageSize);
+            // Fetch the list of cars and map it to CarIndexViewModel
+            var cars = _context.Cars
+                .Select(car => new CarIndexViewModel
+                {
+                    Id = car.Id,
+                    BrandName = car.Brand.Name,
+                    Model = car.Model,
+                    Price = car.Price,
+                    ImgUrl = car.ImgUrl
+                }).ToPagedList(page ?? 1, 5);  // Assuming PagedList library for pagination
 
             return View(cars);
         }
@@ -54,7 +58,10 @@ namespace CarSelling.Controllers
                     Model = viewModel.Model,
                     Mileage = viewModel.Mileage,
                     ImgUrl = viewModel.ImgUrl,
-                    Price = viewModel.Price
+                    Price = viewModel.Price,
+                    Description = viewModel.Description,
+                    CarCreationDate = viewModel.CarCreationDate,
+                    CreatedAt = viewModel.CreatedAt,
                 };
 
                 _context.Cars.Add(car);
@@ -66,6 +73,30 @@ namespace CarSelling.Controllers
             var brands = await _context.Brands.ToListAsync();
             viewModel.Brands = new SelectList(brands, "Id", "Name");
             return View(viewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var car = _context.Cars.Include(c => c.Brand).FirstOrDefault(c => c.Id == id);
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+            var carViewModel = new CarDetailsViewModel()
+            {
+                Id = car.Id,
+                BrandName = car.Brand.Name,
+                Model = car.Model,
+                Mileage = car.Mileage,
+                Price = car.Price,
+                CarCreationDate = car.CarCreationDate,
+                CreatedAt = car.CreatedAt,
+                Description = car.Description,
+                ImgUrl = car.ImgUrl
+            };
+            return View(carViewModel);
         }
     }
 }

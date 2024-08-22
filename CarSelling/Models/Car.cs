@@ -21,6 +21,11 @@ namespace CarSelling.Models
         public double Mileage { get; set; }
         [Range(typeof(decimal), "0", "20000000")]
         public decimal? Price { get; set; }
+        [Required]
+        public DateTime CarCreationDate { get; set; }
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public string? Description { get; set; }
         public string? ImgUrl { get; set; }
     }
 }
