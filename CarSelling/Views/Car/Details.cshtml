@@ -5,11 +5,42 @@
 <head>
     <title>@Model.BrandName @Model.Model - Details</title>
     <link rel="stylesheet" href="~/css/carDetails.css" />
+    <script src="https://www.paypal.com/sdk/js?client-id=AQXAs_4tPzYNa_BzfYRslXrXxiinQ-hbohpw8giRwpP7-7t2IwbNrzgF_3qa2lZGGpUc22K5yPmdPY59&currency=USD"></script>
+    <style>
+
+        /* Styling for the message container */
+        #message-container {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            line-height: 1.5;
+            display: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        /* Button container styling */
+        #paypal-button-container {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="car-img">
-            <img src="@Model.ImgUrl" alt="@Model.BrandName @Model.Model">
+            <img src="@Model.ImgUrl" alt="@Model.BrandName @Model.Model" style="width: 100%; height: auto; border-radius: 8px;">
         </div>
         <div class="car-info">
             <div class="car-title">
@@ -43,10 +74,58 @@
                 </p>
 
                 <form id="checkout-form" method="post" asp-action="BuyNow" asp-controller="Car" asp-route-carId="@Model.Id">
-                    <button class="btn btn-primary">Buy Now</button>
+                    <div id="paypal-button-container"></div>
                 </form>
+
+                <div id="message-container"></div>
             </div>
         </div>
     </div>
+    <script>
+        function displayMessage(message, type) {
+            var messageContainer = document.getElementById('message-container');
+            messageContainer.textContent = message;
+            messageContainer.className = 'success';  // Default to success
+            if (type === 'error') {
+                messageContainer.className = 'error';
+            }
+            messageContainer.style.display = 'block';
+            messageContainer.style.opacity = 1;
+            setTimeout(function () {
+                messageContainer.style.opacity = 0;
+                setTimeout(function () {
+                    messageContainer.style.display = 'none';
+                }, 500); // Wait for opacity transition to complete before hiding
+            }, 5000); // Show message for 5 seconds
+        }
+
+        paypal.Buttons({
+            style: {
+                color: 'gold',      // Set the button color to gold
+                shape: 'rect',      // Button shape
+                label: 'paypal',    // PayPal label
+                layout: 'vertical', // Vertical layout
+                tagline: false      // No tagline below the button
+            },
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: @Model.Price // Example amount
+                                }
+                    }]
+                });
+            },
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    displayMessage('Transaction completed by ' + details.payer.name.given_name, 'success');
+                });
+            },
+            onError: function (err) {
+                console.error('An error occurred during the transaction:', err);
+                displayMessage('Something went wrong with the PayPal transaction. Please try again.', 'error');
+            }
+        }).render('#paypal-button-container'); // Render the button into the container
+    </script>
 </body>
 </html>

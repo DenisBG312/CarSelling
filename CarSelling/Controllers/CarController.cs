@@ -159,5 +159,26 @@ namespace CarSelling.Controllers
             };
             return View(carViewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder([FromBody] int carId)
+        {
+            var car = await _context.Cars.FindAsync(carId);
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+            var amount = car.Price ?? 0;
+
+            // Generate return and cancel URLs
+            var returnUrl = Url.Action("PaymentSuccess", "Car", new { carId }, Request.Scheme);
+            var cancelUrl = Url.Action("PaymentCancel", "Car", new { carId }, Request.Scheme);
+
+            // Create an order with PayPal
+            var orderId = await _payPalService.CreateOrder(amount, returnUrl, cancelUrl);
+
+            return Json(new { id = orderId });
+        }
     }
 }
