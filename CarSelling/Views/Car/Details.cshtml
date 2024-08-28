@@ -52,7 +52,7 @@
                     <strong>Price:</strong>
                     @if (Model.Price != null)
                     {
-                        @Model.Price.Value.ToString("N2")
+                        <span>@Model.Price.Value.ToString("F2") €</span>
                     }
                     else
                     {
