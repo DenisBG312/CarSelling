@@ -24,7 +24,7 @@ namespace CarSelling.Controllers
         [HttpPost]
         public async Task<IActionResult> BuyNow(int carId)
         {
-            var car = _context.Cars.Find(carId);
+            var car = await _context.Cars.FindAsync(carId);
             if (car == null)
             {
                 return NotFound();

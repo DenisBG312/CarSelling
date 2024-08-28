@@ -7,6 +7,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    padding-bottom: 80px; /* Increased bottom padding to create space for the message */
     background-color: #1e1e1e;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
@@ -63,21 +64,22 @@
 
 #message-container {
     margin-top: 20px;
-    display: none;
     padding: 10px;
     border-radius: 5px;
     font-size: 1rem;
+    display: block;
+    z-index: 1000; /* Ensure it appears above other elements */
 }
 
-    #message-container.success {
-        background-color: #28a745;
-        color: #fff;
-    }
+#message-container.success {
+    background-color: #28a745;
+    color: #fff;
+}
 
-    #message-container.error {
-        background-color: #dc3545;
-        color: #fff;
-    }
+#message-container.error {
+    background-color: #dc3545;
+    color: #fff;
+}
 
 #paypal-button-container {
     display: flex;

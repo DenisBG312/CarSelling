@@ -14,77 +14,84 @@
     <script src="https://www.paypal.com/sdk/js?client-id=AQXAs_4tPzYNa_BzfYRslXrXxiinQ-hbohpw8giRwpP7-7t2IwbNrzgF_3qa2lZGGpUc22K5yPmdPY59&currency=EUR"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="car-img">
-            <img src="@Model.ImgUrl" alt="@Model.BrandName @Model.Model">
+    <div class="car-img">
+        <img src="@Model.ImgUrl" alt="@Model.BrandName @Model.Model">
+    </div>
+    <div class="car-info">
+        <div class="car-title">
+            <b>@Model.BrandName @Model.Model</b>
         </div>
-        <div class="car-info">
-            <div class="car-title">
-                <b>@Model.BrandName @Model.Model</b>
-            </div>
-            <div class="car-details">
-                <p><strong>Пробег [км]:</strong> @Model.Mileage miles</p>
-                <p>
-                    <strong>Цена:</strong>
-                    @if (Model.Price != null)
-                    {
-                        <span>@Model.Price.Value.ToString("F2") €</span>
-                    }
-                    else
-                    {
-                        <span>Няма обявена цена за тази кола</span>
-                    }
-                </p>
-                <p><strong>Година на Производство:</strong> @Model.CarCreationDate.Year</p>
-                <p><strong>Офертата е създадена на:</strong> @Model.CreatedAt.ToString("dd.MM.yyyy HH:mm:ss")</p>
-                <p>
-                    <strong>Описание:</strong>
-                    @if (Model.Description != null)
-                    {
-                        @Model.Description
-                    }
-                    else
-                    {
-                        <span>Няма описание за тази кола</span>
-                    }
-                </p>
-                <p><strong>Двигател:</strong> @Model.EngineType</p>
-                <p><strong>Намира се в:</strong> @Model.Location</p>
-                <p>
-                    <strong>Функции за безопасност:</strong>
-                    @if (Model.SafetyFeatures != null)
-                    {
-                        @Model.SafetyFeatures
-                    }
-                    else
-                    {
-                        <span>Няма обявени функции за безопасност</span>
-                    }
-                </p>
-                <p>
-                    <strong>Функции за комфорт:</strong>
-                    @if (Model.ComfortFeatures != null)
-                    {
-                        @Model.ComfortFeatures
-                    }
-                    else
-                    {
-                        <span>Няма обявени функции за комфорт</span>
-                    }
-                </p>
-                <p><strong>Цвят:</strong> @Model.Color</p>
-                <p><strong>Брой врати:</strong> @Model.NumberOfDoors</p>
-                <form id="checkout-form" method="post" asp-action="BuyNow" asp-controller="Car" asp-route-carId="@Model.Id">
-                    <div style="display: flex; justify-content: center; width: 100%;">
-                        <div id="paypal-button-container"></div>
-                    </div>
-                </form>
-                <div id="message-container" class=""></div>
-            </div>
+        <div class="car-details">
+            <p><strong>Пробег [км]:</strong> @Model.Mileage км</p>
+            <p>
+                <strong>Цена:</strong>
+                @if (Model.Price != null)
+                {
+                    <span>@Model.Price.Value.ToString("F2") €</span>
+                }
+                else
+                {
+                    <span>Няма обявена цена за тази кола</span>
+                }
+            </p>
+            <p><strong>Година на Производство:</strong> @Model.CarCreationDate.Year</p>
+            <p><strong>Офертата е създадена на:</strong> @Model.CreatedAt.ToString("dd.MM.yyyy HH:mm:ss")</p>
+            <p>
+                <strong>Описание:</strong>
+                @if (Model.Description != null)
+                {
+                    @Model.Description
+                }
+                else
+                {
+                    <span>Няма описание за тази кола</span>
+                }
+            </p>
+            <p><strong>Двигател:</strong> @Model.EngineType</p>
+            <p><strong>Намира се в:</strong> @Model.Location</p>
+            <p>
+                <strong>Функции за безопасност:</strong>
+                @if (Model.SafetyFeatures != null)
+                {
+                    @Model.SafetyFeatures
+                }
+                else
+                {
+                    <span>Няма обявени функции за безопасност</span>
+                }
+            </p>
+            <p>
+                <strong>Функции за комфорт:</strong>
+                @if (Model.ComfortFeatures != null)
+                {
+                    @Model.ComfortFeatures
+                }
+                else
+                {
+                    <span>Няма обявени функции за комфорт</span>
+                }
+            </p>
+            <p><strong>Цвят:</strong> @Model.Color</p>
+            <p><strong>Брой врати:</strong> @Model.NumberOfDoors</p>
+            <form id="checkout-form" method="post" asp-action="BuyNow" asp-controller="Car" asp-route-carId="@Model.Id">
+                <div id="paypal-button-container"></div>
+            </form>
+            <div id="message-container" class="pb-5"></div>
         </div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            function displayMessage(message, type) {
+                const messageContainer = document.getElementById('message-container');
+                messageContainer.textContent = message;
+                messageContainer.className = 'message ' + type;
+                messageContainer.style.display = 'block';
+
+                setTimeout(() => {
+                    messageContainer.style.display = 'none';
+                }, 5000);
+            }
+
             paypal.Buttons({
                 style: {
                     color: 'gold',
