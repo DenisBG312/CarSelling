@@ -3,13 +3,13 @@
 @model X.PagedList.IPagedList<CarIndexViewModel>
 
 @{
-    ViewData["Title"] = "All Cars";
+    ViewData["Title"] = "Всички обяви";
 }
 <script src="js/imgOpen.js"></script>
 <link rel="stylesheet" href="~/css/createCar.css" />
 <link rel="stylesheet" href="~/css/carIndex.css" />
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="mb-4">@ViewData["Title"]</h1>
 
 <div class="container">
     <div class="row">
@@ -37,7 +37,7 @@
                                 <span>The car is not for sale</span>
                             }
                         </p>
-                        <a href="@Url.Action("Details", "Car", new { id = car.Id })" class="btn btn-info">Details</a>
+                        <a href="@Url.Action("Details", "Car", new { id = car.Id })" class="btn btn-danger">Details</a>
                     </div>
                 </div>
             </div>

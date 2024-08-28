@@ -1,34 +1,99 @@
-﻿.container {
-    display: flex;
-    align-items: flex-start;
-    padding: 20px;
-    margin: auto;
+﻿a {
+    color: #0077cc;
+    text-decoration: none;
+}
+
+.container {
     max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
-.car-img {
-    flex: 2;
-    padding-right: 50px; /* Increased padding to separate the image from the text */
-}
-
-    .car-img img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 10px;
-    }
-
-.car-info {
-    flex: 1;
-    text-align: left;
+.car-img img {
+    width: 50%; /* Smaller image width */
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
 }
 
 .car-title {
-    font-size: 32px;
-    font-weight: bold;
+    text-align: center;
     margin-bottom: 20px;
+    font-size: 2rem;
+    color: #ff6f61;
 }
 
-.car-details p {
-    font-size: 20px;
-    margin-bottom: 10px;
+.car-details {
+    margin-top: 20px;
+    font-size: 1.1rem;
 }
+
+    .car-details p {
+        margin-bottom: 10px;
+    }
+
+    .car-details strong {
+        color: #ff6f61;
+    }
+
+    .car-details span {
+        color: #b0b0b0;
+    }
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+    .btn-primary:hover {
+        background-color: #165a9c;
+    }
+
+#message-container {
+    margin-top: 20px;
+    display: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+    #message-container.success {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    #message-container.error {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+#paypal-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 10px; /* Increased padding for better appearance */
+    border-radius: 5px;
+    width: 700px; /* Set a fixed width for the container */
+    text-align: center;
+    margin: 0 auto; /* Centers the container within its parent */
+}
+
+    #paypal-button-container > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%; /* Ensures the button inside is centered */
+    }

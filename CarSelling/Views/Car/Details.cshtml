@@ -4,133 +4,116 @@
     ViewData["Title"] = $"{Model.BrandName} {Model.Model}";
 }
 
+<link rel="stylesheet" href="~/css/carDetails.css" />
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>@Model.BrandName @Model.Model - Details</title>
-    <link rel="stylesheet" href="~/css/carDetails.css" />
+
     <script src="https://www.paypal.com/sdk/js?client-id=AQXAs_4tPzYNa_BzfYRslXrXxiinQ-hbohpw8giRwpP7-7t2IwbNrzgF_3qa2lZGGpUc22K5yPmdPY59&currency=EUR"></script>
-    <style>
-
-        /* Styling for the message container */
-        #message-container {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 16px;
-            line-height: 1.5;
-            display: none;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        .success {
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-        }
-
-        .error {
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-        }
-
-        /* Button container styling */
-        #paypal-button-container {
-            margin-top: 20px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <div class="car-img">
-            <img src="@Model.ImgUrl" alt="@Model.BrandName @Model.Model" style="width: 100%; height: auto; border-radius: 8px;">
+            <img src="@Model.ImgUrl" alt="@Model.BrandName @Model.Model">
         </div>
         <div class="car-info">
             <div class="car-title">
-                <b><u>@Model.BrandName @Model.Model</u></b>
+                <b>@Model.BrandName @Model.Model</b>
             </div>
             <div class="car-details">
-                <p><strong>Mileage:</strong> @Model.Mileage miles</p>
+                <p><strong>Пробег [км]:</strong> @Model.Mileage miles</p>
                 <p>
-                    <strong>Price:</strong>
+                    <strong>Цена:</strong>
                     @if (Model.Price != null)
                     {
                         <span>@Model.Price.Value.ToString("F2") €</span>
                     }
                     else
                     {
-                        <span>There is no price for this car</span>
+                        <span>Няма обявена цена за тази кола</span>
                     }
                 </p>
-                <p><strong>Year:</strong> @Model.CarCreationDate.Year</p>
-                <p><strong>Offer Created At:</strong> @Model.CreatedAt.ToShortDateString()</p>
+                <p><strong>Година на Производство:</strong> @Model.CarCreationDate.Year</p>
+                <p><strong>Офертата е създадена на:</strong> @Model.CreatedAt.ToString("dd.MM.yyyy HH:mm:ss")</p>
                 <p>
-                    <strong>Description:</strong>
+                    <strong>Описание:</strong>
                     @if (Model.Description != null)
                     {
                         @Model.Description
                     }
                     else
                     {
-                        <span>There is no description for this car</span>
+                        <span>Няма описание за тази кола</span>
                     }
                 </p>
-
+                <p><strong>Двигател:</strong> @Model.EngineType</p>
+                <p><strong>Намира се в:</strong> @Model.Location</p>
+                <p>
+                    <strong>Функции за безопасност:</strong>
+                    @if (Model.SafetyFeatures != null)
+                    {
+                        @Model.SafetyFeatures
+                    }
+                    else
+                    {
+                        <span>Няма обявени функции за безопасност</span>
+                    }
+                </p>
+                <p>
+                    <strong>Функции за комфорт:</strong>
+                    @if (Model.ComfortFeatures != null)
+                    {
+                        @Model.ComfortFeatures
+                    }
+                    else
+                    {
+                        <span>Няма обявени функции за комфорт</span>
+                    }
+                </p>
+                <p><strong>Цвят:</strong> @Model.Color</p>
+                <p><strong>Брой врати:</strong> @Model.NumberOfDoors</p>
                 <form id="checkout-form" method="post" asp-action="BuyNow" asp-controller="Car" asp-route-carId="@Model.Id">
-                    <div id="paypal-button-container"></div>
+                    <div style="display: flex; justify-content: center; width: 100%;">
+                        <div id="paypal-button-container"></div>
+                    </div>
                 </form>
-
-                <div id="message-container"></div>
+                <div id="message-container" class=""></div>
             </div>
         </div>
     </div>
     <script>
-        function displayMessage(message, type) {
-            var messageContainer = document.getElementById('message-container');
-            messageContainer.textContent = message;
-            messageContainer.className = 'success';  // Default to success
-            if (type === 'error') {
-                messageContainer.className = 'error';
-            }
-            messageContainer.style.display = 'block';
-            messageContainer.style.opacity = 1;
-            setTimeout(function () {
-                messageContainer.style.opacity = 0;
-                setTimeout(function () {
-                    messageContainer.style.display = 'none';
-                }, 500); // Wait for opacity transition to complete before hiding
-            }, 5000); // Show message for 5 seconds
-        }
-
-        paypal.Buttons({
-            style: {
-                color: 'gold',      // Set the button color to gold
-                shape: 'rect',      // Button shape
-                label: 'paypal',    // PayPal label
-                layout: 'vertical', // Vertical layout
-                tagline: false      // No tagline below the button
-            },
-            createOrder: function (data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            currency_code: 'EUR', // Set currency code to EUR
-                            value: @Model.Price 
-                        }
-                    }]
-                });
-            },
-            onApprove: function (data, actions) {
-                return actions.order.capture().then(function (details) {
-                    displayMessage('Transaction completed by ' + details.payer.name.given_name, 'success');
-                });
-            },
-            onError: function (err) {
-                console.error('An error occurred during the transaction:', err);
-                displayMessage('Something went wrong with the PayPal transaction. Please try again.', 'error');
-            }
-        }).render('#paypal-button-container'); // Render the button into the container
+        document.addEventListener("DOMContentLoaded", function () {
+            paypal.Buttons({
+                style: {
+                    color: 'gold',
+                    shape: 'rect',
+                    label: 'paypal',
+                    layout: 'vertical',
+                    tagline: false
+                },
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                currency_code: 'EUR',
+                                value: '@Model.Price'
+                            }
+                        }]
+                    });
+                },
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {
+                        displayMessage('Транзакцията е завършена от ' + details.payer.name.given_name, 'success');
+                    });
+                },
+                onError: function (err) {
+                    console.error('Грешка по време на транзакцията:', err);
+                    displayMessage('Възникна проблем с PayPal транзакцията. Моля, опитайте отново.', 'error');
+                }
+            }).render('#paypal-button-container');
+        });
     </script>
 </body>
 </html>

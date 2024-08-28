@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using CarSelling.Models.Enum;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace CarSelling.Models
@@ -22,6 +23,18 @@ namespace CarSelling.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public string? ImgUrl { get; set; }
+        [Required]
+        public int NumberOfDoors { get; set; }
+        [Required]
+        public string Location { get; set; } = null!;
+
+        [StringLength(255)]
+        public string? SafetyFeatures { get; set; }
+        [StringLength(255)]
+        public string? ComfortFeatures { get; set; }
+        [Required]
+        public EngineType EngineType { get; set; }
+        public ColorEnum? Color { get; set; }
 
         // List of brands for the dropdown
         public IEnumerable<SelectListItem> Brands { get; set; } = new List<SelectListItem>();

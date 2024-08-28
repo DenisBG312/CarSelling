@@ -1,4 +1,5 @@
-﻿using CarSelling.Models;
+﻿using System.Globalization;
+using CarSelling.Models;
 using CarSelling.Services;
 using CarSellingWeb.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ namespace CarSelling.Controllers
     {
         private readonly CarSellingDbContext _context;
         private readonly PayPalService _payPalService;
+
         public CarController(CarSellingDbContext context, PayPalService payPalService)
         {
             _context = context;
@@ -87,7 +89,7 @@ namespace CarSelling.Controllers
                     Model = car.Model,
                     Price = car.Price,
                     ImgUrl = car.ImgUrl
-                }).ToPagedList(page ?? 1, 6);  // Assuming PagedList library for pagination
+                }).ToPagedList(page ?? 1, 6); // Assuming PagedList library for pagination
 
             return View(cars);
         }
@@ -112,28 +114,46 @@ namespace CarSelling.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Map the ViewModel to the Car entity
-                var car = new Car
+                // Validate CarCreationDate
+                if (viewModel.CarCreationDate == null || IsInvalidDate(viewModel.CarCreationDate))
                 {
-                    BrandId = viewModel.BrandId,
-                    Model = viewModel.Model,
-                    Mileage = viewModel.Mileage,
-                    ImgUrl = viewModel.ImgUrl,
-                    Price = viewModel.Price,
-                    Description = viewModel.Description,
-                    CarCreationDate = viewModel.CarCreationDate,
-                    CreatedAt = viewModel.CreatedAt,
-                };
+                    ModelState.AddModelError("CarCreationDate", "The Car Creation Date is not valid. Please provide a valid date.");
+                }
 
-                _context.Cars.Add(car);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    // Map the ViewModel to the Car entity
+                    var car = new Car
+                    {
+                        BrandId = viewModel.BrandId,
+                        Model = viewModel.Model,
+                        Mileage = viewModel.Mileage,
+                        ImgUrl = viewModel.ImgUrl,
+                        Price = viewModel.Price,
+                        Description = viewModel.Description,
+                        CarCreationDate = viewModel.CarCreationDate,
+                        CreatedAt = viewModel.CreatedAt,
+                        EngineType = viewModel.EngineType,
+                        NumberOfDoors = viewModel.NumberOfDoors,
+                        Location = viewModel.Location,
+                        SafetyFeatures = viewModel.SafetyFeatures,
+                        ComfortFeatures = viewModel.ComfortFeatures,
+                        Color = viewModel.Color
+                    };
+
+                    _context.Cars.Add(car);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
             }
 
-            // If validation fails, re-populate the brands list and return the view
-            var brands = await _context.Brands.ToListAsync();
-            viewModel.Brands = new SelectList(brands, "Id", "Name");
+            // If we got this far, something failed, redisplay the form
             return View(viewModel);
+        }
+
+        private bool IsInvalidDate(DateTime date)
+        {
+            return date == DateTime.MinValue || date > DateTime.Now;
         }
 
         [HttpGet]
@@ -155,7 +175,14 @@ namespace CarSelling.Controllers
                 CarCreationDate = car.CarCreationDate,
                 CreatedAt = car.CreatedAt,
                 Description = car.Description,
-                ImgUrl = car.ImgUrl
+                ImgUrl = car.ImgUrl,
+                EngineType = car.EngineType.ToString(),
+                Location = car.Location,
+                SafetyFeatures = car.SafetyFeatures,
+                ComfortFeatures = car.ComfortFeatures,
+                Color = car.Color.ToString(),
+                NumberOfDoors = car.NumberOfDoors
+                
             };
             return View(carViewModel);
         }

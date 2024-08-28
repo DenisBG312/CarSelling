@@ -1,19 +1,20 @@
-﻿@model CarSelling.Models.CarCreateViewModel
+﻿@using CarSelling.Models.Enum
+@model CarSelling.Models.CarCreateViewModel
 
 @{
-    ViewData["Title"] = "Create Car";
+    ViewData["Title"] = "Създай кола";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<h4>Car</h4>
+<h4>Кола</h4>
 <hr />
 
 <form asp-action="Create">
     <div class="form-group">
-        <label asp-for="BrandId" class="control-label">Brand</label>
+        <label asp-for="BrandId" class="control-label">Производител <span class="text-danger">*</span></label>
         <select asp-for="BrandId" class="form-control">
-            <option value="">-- Choose a brand --</option>
+            <option value="">-- Избери Производител --</option>
             @foreach (var item in Model.Brands)
             {
                 <option value="@item.Value">
@@ -24,38 +25,68 @@
         <span asp-validation-for="BrandId" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Model" class="control-label"></label>
+        <label asp-for="Model" class="control-label mt-3">Модел <span class="text-danger">*</span></label>
         <input asp-for="Model" class="form-control" />
         <span asp-validation-for="Model" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Mileage" class="control-label"></label>
+        <label asp-for="Mileage" class="control-label mt-3">Пробег [км] <span class="text-danger">*</span></label>
         <input asp-for="Mileage" class="form-control" />
         <span asp-validation-for="Mileage" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Price" class="control-label"></label>
+        <label asp-for="Price" class="control-label mt-3">Цена [евро] <span class="text-danger">*</span></label>
         <input asp-for="Price" class="form-control" />
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="CarCreationDate" class="control-label"></label>
+        <label asp-for="CarCreationDate" class="control-label mt-3">Дата на производство <span class="text-danger">*</span></label>
         <input asp-for="CarCreationDate" class="form-control" />
         <span asp-validation-for="CarCreationDate" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="ImgUrl" class="control-label"></label>
+        <label asp-for="ImgUrl" class="control-label mt-3">Линк към снимка <span class="text-danger">*</span></label>
         <input asp-for="ImgUrl" class="form-control" />
         <span asp-validation-for="ImgUrl" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Description" class="control-label"></label>
+        <label asp-for="Description" class="control-label mt-3">Описание</label>
         <input asp-for="Description" class="form-control" />
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary mt-3">Create</button>
+        <label asp-for="Location" class="control-label mt-3">Населено място <span class="text-danger">*</span></label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EngineType" class="control-label">Двигател <span class="text-danger">*</span></label>
+        <select asp-for="EngineType" class="form-control" asp-items="Html.GetEnumSelectList<EngineType>()"></select>
+        <span asp-validation-for="EngineType" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Color" class="control-label mt-3">Цвят <span class="text-danger">*</span></label>
+        <select input asp-for="Color" class="form-control" asp-items="Html.GetEnumSelectList<ColorEnum>()"></select>
+        <span asp-validation-for="Color" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ComfortFeatures" class="control-label mt-3">Функции за комфорт</label>
+        <input asp-for="ComfortFeatures" class="form-control" />
+        <span asp-validation-for="ComfortFeatures" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SafetyFeatures" class="control-label mt-3">Функции за безопасност</label>
+        <input asp-for="SafetyFeatures" class="form-control" />
+        <span asp-validation-for="SafetyFeatures" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NumberOfDoors" class="control-label mt-3">Брой врати <span class="text-danger">*</span></label>
+        <input asp-for="NumberOfDoors" class="form-control" />
+        <span asp-validation-for="NumberOfDoors" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary mt-3">Създай</button>
     </div>
 </form>
 
-<a asp-action="Index" class="btn btn-warning mt-3">Back to List</a>
+<a asp-action="Index" class="btn btn-warning mt-3">Върни се към колите</a>

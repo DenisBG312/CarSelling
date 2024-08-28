@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
+using CarSelling.Models.Enum;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarSelling.Models
@@ -27,5 +29,18 @@ namespace CarSelling.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public string? Description { get; set; }
         public string? ImgUrl { get; set; }
+        [Required]
+        public int NumberOfDoors { get; set; }
+        [Required]
+        public string Location { get; set; } = null!;
+
+        [StringLength(255)]
+        public string? SafetyFeatures { get; set; }
+        [StringLength(255)]
+        public string? ComfortFeatures { get; set; }
+        [Required]
+        public EngineType EngineType { get; set; }
+        public ColorEnum? Color { get; set; }
+        
     }
 }
