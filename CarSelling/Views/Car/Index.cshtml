@@ -7,57 +7,43 @@
 }
 <script src="js/imgOpen.js"></script>
 <link rel="stylesheet" href="~/css/createCar.css" />
-<link rel="stylesheet" href="~/css/carIndex.css"/>
+<link rel="stylesheet" href="~/css/carIndex.css" />
 
 <h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Add a Car</a>
-</p>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Brand</th>
-            <th>Model</th>
-            <th>Price</th>
-            <th>Image</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="container">
+    <div class="row">
         @foreach (var car in Model)
         {
-            <tr>
-                <td>@car.BrandName</td>
-                <td>@car.Model</td>
-                <td>
-                    @if (car.Price.HasValue)
-                    {
-                        <span>@car.Price.Value.ToString("N2") $</span>
-                    }
-                    else
-                    {
-                        <span>The car is not for sale</span>
-                    }
-                </td>
-                <td>
+            <div class="col-md-4">
+                <div class="card mb-4">
                     @if (!string.IsNullOrEmpty(car.ImgUrl))
                     {
-                        <img src="@car.ImgUrl" alt="@car.Model" class="img-thumbnail" style="cursor:pointer;" onclick="openModal('@car.ImgUrl')" />
+                        <img src="@car.ImgUrl" class="card-img-top" alt="@car.Model" style="cursor:pointer;" onclick="openModal('@car.ImgUrl')" />
                     }
                     else
                     {
-                        <span>No Image</span>
+                        <img src="~/images/no-image.png" class="card-img-top" alt="No Image Available" />
                     }
-                </td>
-                <td>
-                    <a href="@Url.Action("Details", "Car", new { id = car.Id })" class="btn btn-info">Details</a>
-                </td>
-            </tr>
+                    <div class="card-body">
+                        <h5 class="card-title">@car.BrandName @car.Model</h5>
+                        <p class="card-text">
+                            @if (car.Price.HasValue)
+                            {
+                                <span>@car.Price.Value.ToString("F2") €</span>
+                            }
+                            else
+                            {
+                                <span>The car is not for sale</span>
+                            }
+                        </p>
+                        <a href="@Url.Action("Details", "Car", new { id = car.Id })" class="btn btn-info">Details</a>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>
 
 <!-- Modal Structure -->
 <div id="imageModal" class="modal" style="display:none;">
@@ -68,14 +54,14 @@
 
 <nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">
     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
-        new PagedListRenderOptions
-        {
-            UlElementClasses = new[] { "pagination" }, 
-            LiElementClasses = new[] { "page-item" },  
-            PageClasses = new[] { "page-link" },       
-            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-            DisplayLinkToNextPage = PagedListDisplayMode.Always,
-            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
-            DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded
-        })
+            new PagedListRenderOptions
+    {
+        UlElementClasses = new[] { "pagination" },
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link" },
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+        DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded
+    })
 </nav>

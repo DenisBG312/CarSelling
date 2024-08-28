@@ -40,7 +40,7 @@ namespace CarSelling.Services
                     {
                         AmountWithBreakdown = new AmountWithBreakdown
                         {
-                            CurrencyCode = "USD",
+                            CurrencyCode = "EUR",
                             Value = amount.ToString("F2")
                         }
                     }

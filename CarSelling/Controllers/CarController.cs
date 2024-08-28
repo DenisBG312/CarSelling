@@ -87,7 +87,7 @@ namespace CarSelling.Controllers
                     Model = car.Model,
                     Price = car.Price,
                     ImgUrl = car.ImgUrl
-                }).ToPagedList(page ?? 1, 5);  // Assuming PagedList library for pagination
+                }).ToPagedList(page ?? 1, 6);  // Assuming PagedList library for pagination
 
             return View(cars);
         }

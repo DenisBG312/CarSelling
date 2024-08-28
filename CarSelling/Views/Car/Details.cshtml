@@ -5,7 +5,7 @@
 <head>
     <title>@Model.BrandName @Model.Model - Details</title>
     <link rel="stylesheet" href="~/css/carDetails.css" />
-    <script src="https://www.paypal.com/sdk/js?client-id=""></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AQXAs_4tPzYNa_BzfYRslXrXxiinQ-hbohpw8giRwpP7-7t2IwbNrzgF_3qa2lZGGpUc22K5yPmdPY59&currency=EUR"></script>
     <style>
 
         /* Styling for the message container */
@@ -82,7 +82,7 @@
         </div>
     </div>
     <script>
-        function display Message(message, type) {
+        function displayMessage(message, type) {
             var messageContainer = document.getElementById('message-container');
             messageContainer.textContent = message;
             messageContainer.className = 'success';  // Default to success
@@ -111,8 +111,9 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: @Model.Price // Example amount
-                                }
+                            currency_code: 'EUR', // Set currency code to EUR
+                            value: @Model.Price 
+                        }
                     }]
                 });
             },
