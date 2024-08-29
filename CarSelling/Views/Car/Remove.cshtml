@@ -1,0 +1,67 @@
+﻿@model CarSelling.Models.Car
+
+@{
+    ViewData["Title"] = "Delete Car";
+}
+
+<h1>Изтрий кола: @Model.Brand.Name @Model.Model</h1>
+
+<div>
+    <h4>Сигурни ли сте, че искате да изтриете тази кола?</h4>
+    <div>
+        <dl class="row">
+            <dt class="col-sm-2">Име</dt>
+            <dd class="col-sm-10">
+                @Model.Brand.Name
+            </dd>
+
+            <dt class="col-sm-2">
+                Модел
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Model
+            </dd>
+
+            <dt class="col-sm-2">
+                Обявата е създадена на
+            </dt>
+            <dd class="col-sm-10">
+                @Model.CreatedAt.ToString("dd.MM.yyyy HH:mm:ss")
+            </dd>
+
+            <dt class="col-sm-2">
+                Описание
+            </dt>
+            <dd class="col-sm-10">
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    @Html.DisplayFor(model => model.Description)
+                }
+                else
+                {
+                    <span>Няма описание за тази кола</span>
+                }
+            </dd>
+
+            <dt class="col-sm-2">
+                Снимка
+            </dt>
+            <dd class="col-sm-10">
+                @if (!string.IsNullOrEmpty(Model.ImgUrl))
+                {
+                    <img src="@Model.ImgUrl" alt="@Model.Model" style="max-width: 500px;" />
+                }
+                else
+                {
+                    <span>Няма изображение</span>
+                }
+            </dd>
+        </dl>
+    </div>
+
+    <form asp-action="ConfirmDelete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Изтрий</button>
+        <a href="@Url.Action("Index", "Car")" class="btn btn-secondary">Отказ</a>
+    </form>
+</div>

@@ -182,9 +182,23 @@ namespace CarSelling.Controllers
                 ComfortFeatures = car.ComfortFeatures,
                 Color = car.Color.ToString(),
                 NumberOfDoors = car.NumberOfDoors
-                
+
             };
             return View(carViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Remove(int id)
+        {
+            var carToDelete = _context.Cars
+                                        .Include(c => c.Brand)
+                                        .FirstOrDefault(c => c.Id == id);
+            if (carToDelete == null)
+            {
+                return NotFound();
+            }
+
+            return View(carToDelete); // Pass the car object to the view
         }
 
         [HttpPost]
@@ -198,14 +212,28 @@ namespace CarSelling.Controllers
 
             var amount = car.Price ?? 0;
 
-            // Generate return and cancel URLs
+
             var returnUrl = Url.Action("PaymentSuccess", "Car", new { carId }, Request.Scheme);
             var cancelUrl = Url.Action("PaymentCancel", "Car", new { carId }, Request.Scheme);
 
-            // Create an order with PayPal
             var orderId = await _payPalService.CreateOrder(amount, returnUrl, cancelUrl);
 
             return Json(new { id = orderId });
+        }
+
+        [HttpPost]
+        public IActionResult ConfirmDelete(int id)
+        {
+            var carToDelete = _context.Cars.Find(id);
+            if (carToDelete == null)
+            {
+                return NotFound();
+            }
+
+            _context.Cars.Remove(carToDelete);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index"); // Redirect to the list view or another relevant action
         }
     }
 }

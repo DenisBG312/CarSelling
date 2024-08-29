@@ -37,7 +37,8 @@
                                 <span>The car is not for sale</span>
                             }
                         </p>
-                        <a href="@Url.Action("Details", "Car", new { id = car.Id })" class="btn btn-danger">Details</a>
+                        <a href="@Url.Action("Details", "Car", new { id = car.Id })" class="btn btn-primary">Details</a>
+                        <a href="@Url.Action("Remove", "Car", new { id = car.Id })" class="btn btn-danger">Remove</a>
                     </div>
                 </div>
             </div>
