@@ -10,7 +10,7 @@ namespace CarSelling.Models
         public string Model { get; set; } = null!;
         public double Mileage { get; set; }
         public decimal? Price { get; set; }
-        public DateTime CarCreationDate { get; set; }
+        public int CarCreationYear { get; set; }
         public DateTime CreatedAt { get; set; }
         public string? Description { get; set; }
         public string? ImgUrl { get; set; }

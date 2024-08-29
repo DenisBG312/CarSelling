@@ -115,7 +115,7 @@ namespace CarSelling.Controllers
             if (ModelState.IsValid)
             {
                 // Validate CarCreationDate
-                if (viewModel.CarCreationDate == null || IsInvalidDate(viewModel.CarCreationDate))
+                if (IsInvalidYear(viewModel.CarCreationYear))
                 {
                     ModelState.AddModelError("CarCreationDate", "The Car Creation Date is not valid. Please provide a valid date.");
                 }
@@ -131,7 +131,7 @@ namespace CarSelling.Controllers
                         ImgUrl = viewModel.ImgUrl,
                         Price = viewModel.Price,
                         Description = viewModel.Description,
-                        CarCreationDate = viewModel.CarCreationDate,
+                        CarCreationYear = viewModel.CarCreationYear,
                         CreatedAt = viewModel.CreatedAt,
                         EngineType = viewModel.EngineType,
                         NumberOfDoors = viewModel.NumberOfDoors,
@@ -147,13 +147,29 @@ namespace CarSelling.Controllers
                 }
             }
 
+            viewModel.Brands = GetBrandsList();
+
             // If we got this far, something failed, redisplay the form
             return View(viewModel);
         }
 
-        private bool IsInvalidDate(DateTime date)
+        private List<SelectListItem> GetBrandsList()
         {
-            return date == DateTime.MinValue || date > DateTime.Now;
+            var brands = _context.Brands
+                .Select(m => new SelectListItem
+                {
+                    Value = m.Id.ToString(),
+                    Text = m.Name
+                })
+                .ToList();
+
+
+            return brands;
+        }
+
+        private bool IsInvalidYear(int year)
+        {
+            return year <= 1990 || year == DateTime.Now.Year;
         }
 
         [HttpGet]
@@ -172,7 +188,7 @@ namespace CarSelling.Controllers
                 Model = car.Model,
                 Mileage = car.Mileage,
                 Price = car.Price,
-                CarCreationDate = car.CarCreationDate,
+                CarCreationYear = car.CarCreationYear,
                 CreatedAt = car.CreatedAt,
                 Description = car.Description,
                 ImgUrl = car.ImgUrl,

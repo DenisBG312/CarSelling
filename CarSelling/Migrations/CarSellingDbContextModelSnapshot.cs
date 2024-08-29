@@ -44,7 +44,7 @@ namespace CarSelling.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("CarSelling.Models.Car", b =>
@@ -106,7 +106,7 @@ namespace CarSelling.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
                 });
 
             modelBuilder.Entity("CarSelling.Models.Car", b =>

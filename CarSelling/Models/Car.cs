@@ -24,7 +24,7 @@ namespace CarSelling.Models
         [Range(typeof(decimal), "0", "20000000")]
         public decimal? Price { get; set; }
         [Required]
-        public DateTime CarCreationDate { get; set; }
+        public int CarCreationYear { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public string? Description { get; set; }

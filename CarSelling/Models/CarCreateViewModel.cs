@@ -9,23 +9,24 @@ namespace CarSelling.Models
         [Required]
         public int BrandId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето за модел е задължително.")]
         [StringLength(150, MinimumLength = 2)]
         public string Model { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "Въведете реален пробег.")]
         [Range(0, double.MaxValue)]
         public double Mileage { get; set; }
         [Range(typeof(decimal), "0", "20000000")]
         public decimal? Price { get; set; }
         public string? Description { get; set; }
-        public DateTime CarCreationDate { get; set; }
+        public int CarCreationYear { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public string? ImgUrl { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето за снимка е задължително.")]
+        public string ImgUrl { get; set; } = null!;
+        [Required(ErrorMessage = "Полето за брой на врати е задължително.")]
         public int NumberOfDoors { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Полето за локация е задължително.")]
         public string Location { get; set; } = null!;
 
         [StringLength(255)]
