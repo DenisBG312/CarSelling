@@ -22,7 +22,8 @@ namespace CarSelling.Models
         [Range(0, double.MaxValue)]
         public double Mileage { get; set; }
         [Range(typeof(decimal), "0", "20000000")]
-        public decimal? Price { get; set; }
+        [Required]
+        public decimal Price { get; set; }
         [Required]
         public int CarCreationYear { get; set; }
         [Required]

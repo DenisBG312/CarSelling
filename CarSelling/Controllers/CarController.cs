@@ -30,7 +30,7 @@ namespace CarSelling.Controllers
                 return NotFound();
             }
 
-            var amount = car.Price ?? 0;
+            var amount = car.Price;
 
             // Generate return and cancel URLs
             var returnUrl = Url.Action("PaymentSuccess", "Car", new { carId = carId }, Request.Scheme);
@@ -226,7 +226,7 @@ namespace CarSelling.Controllers
                 return NotFound();
             }
 
-            var amount = car.Price ?? 0;
+            var amount = car.Price;
 
 
             var returnUrl = Url.Action("PaymentSuccess", "Car", new { carId }, Request.Scheme);

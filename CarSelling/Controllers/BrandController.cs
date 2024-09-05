@@ -34,9 +34,16 @@ namespace CarSelling.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (_context.Brands.Any(b => b.Name == brand.Name))
+                {
+                    ModelState.AddModelError("Name", "Този бранд вече съществува");
+
+                    return View();
+                }
+
                 _context.Brands.Add(brand);
-                _context.SaveChanges();
-                return RedirectToAction("Index", "Brand");
+                _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
 
             return View(brand);

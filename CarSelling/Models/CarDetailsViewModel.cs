@@ -9,7 +9,7 @@ namespace CarSelling.Models
         public string BrandName { get; set; } = null!;
         public string Model { get; set; } = null!;
         public double Mileage { get; set; }
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
         public int CarCreationYear { get; set; }
         public DateTime CreatedAt { get; set; }
         public string? Description { get; set; }

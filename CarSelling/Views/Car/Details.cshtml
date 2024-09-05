@@ -25,14 +25,7 @@
             <p><strong>Пробег [км]:</strong> @Model.Mileage км</p>
             <p>
                 <strong>Цена:</strong>
-                @if (Model.Price != null)
-                {
-                    <span>@Model.Price.Value.ToString("F2") €</span>
-                }
-                else
-                {
-                    <span>Няма обявена цена за тази кола</span>
-                }
+                @Model.Price €
             </p>
             <p><strong>Година на Производство:</strong> @Model.CarCreationYear</p>
             <p><strong>Офертата е създадена на:</strong> @Model.CreatedAt.ToString("dd.MM.yyyy HH:mm:ss")</p>

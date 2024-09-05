@@ -27,18 +27,11 @@
                     }
                     <div class="card-body">
                         <h5 class="card-title">@car.BrandName @car.Model</h5>
-                        <p class="card-text">
-                            @if (car.Price.HasValue)
-                            {
-                                <span>@car.Price.Value.ToString("F2") €</span>
-                            }
-                            else
-                            {
-                                <span>The car is not for sale</span>
-                            }
-                        </p>
-                        <a href="@Url.Action("Details", "Car", new { id = car.Id })" class="btn btn-primary">Details</a>
-                        <a href="@Url.Action("Remove", "Car", new { id = car.Id })" class="btn btn-danger">Remove</a>
+                        <p class="card-text">@car.Price €</p>
+                        
+
+                        <a href="@Url.Action("Details", "Car", new { id = car.Id })" class="btn btn-primary">Детайли</a> &nbsp
+                        <a href="@Url.Action("Remove", "Car", new { id = car.Id })" class="btn btn-danger">Изтрий</a>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,8 @@ namespace CarSelling.Models
         [Range(0, double.MaxValue)]
         public double Mileage { get; set; }
         [Range(typeof(decimal), "0", "20000000")]
-        public decimal? Price { get; set; }
+        [Required(ErrorMessage = "Полето за цена е задължително.")]
+        public decimal Price { get; set; }
         public string? Description { get; set; }
         public int CarCreationYear { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
